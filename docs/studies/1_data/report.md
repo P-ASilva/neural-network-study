@@ -13,18 +13,16 @@ Generated a synthetic dataset with 400 samples (100 per class) using Gaussian di
 
 - **Class 3:** Mean = [15, 4], Std = [0.5, 2.0]  
 
+
 ### Code Snipet
 
 Code used for class generation, present in `main.py` 
 
 ```python
-    class_params = {
-        0: {"mean": [2, 3], "std": [0.8, 2.5]},
-        1: {"mean": [5, 6], "std": [1.2, 1.9]},
-        2: {"mean": [8, 1], "std": [0.9, 0.9]},
-        3: {"mean": [15, 4], "std": [0.5, 2.0]},
-    }
-    
+    def main():
+
+    # Hardcoded class parameters above
+
     X, y = [], []
     for cls, p in class_params.items():
         data = np.random.normal(loc=p["mean"], scale=p["std"], size=(samples_per_class, 2))
@@ -46,6 +44,7 @@ Code used for class generation, present in `main.py`
         "scatter_plot_path": "assets/scatter.png"
     }
 ```
+
 ## 2. Visualization: Scatter Plot
 
 ![scatter](assets/scatter.png)
@@ -70,6 +69,7 @@ Code used for image/graphic generation.
     plt.savefig(scatter_path, dpi=300, bbox_inches='tight')
     plt.close()
 ```
+
 ## 3. Analysis and Decision Boundaries
 
 ### a. Distribution and Overlap

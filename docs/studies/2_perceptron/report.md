@@ -1,8 +1,8 @@
 # Study 2
 
-Separted in two scenarios for different approaches, before discussing the result we must highlight the setup.
+Separated in two scenarios for different approaches, before discussing the result we must highlight the setup.
 
-## Percepetron Training
+## Perceptron Training
 
 ```python
 def perceptron_train(X, y, eta=0.01, max_epochs=100):
@@ -25,8 +25,7 @@ def perceptron_train(X, y, eta=0.01, max_epochs=100):
 ```
 ## Study/Scenario Builder
 
-Use to orquestrate the training of a new perceptron based in core variables used to generate classes (mean, covariance
-)
+Used to orquestrate the training of a new perceptron based in core variables used to generate classes (mean, covariance)
 ```python
 def run_perceptron_study(mean0, cov0, mean1, cov1, study_name):
     np.random.seed(42)
@@ -51,7 +50,7 @@ def run_perceptron_study(mean0, cov0, mean1, cov1, study_name):
         "accuracy_plot_path": accuracy_path
     }
 ```
-The `run_percepetron_study` can be used directly, in this instance it was used through a `main()` in order to generate data for both of the following experiments:
+The `run_perceptron_study` can be used directly, in this instance it was used through a `main()` in order to generate data for both of the following experiments:
 
 # Study 2A - Linear Separability Analysis
 
