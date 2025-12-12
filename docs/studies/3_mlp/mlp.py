@@ -109,9 +109,20 @@ class MLP:
         
         return current
     
+
     def compute_loss(self, y_pred, y_true):
-        # Mean Squared Error for regression/binary classification
-        return np.mean((y_pred - y_true) ** 2)
+        """
+        Softmax Cross-Entropy Loss.
+        y_pred: predicted probabilities per class (softmax)
+        y_true: one-hot true labels
+        """
+        eps = 1e-12
+        y_pred = np.clip(y_pred, eps, 1 - eps)
+
+        # sum over classes, mean over samples
+        loss = -np.mean(np.sum(y_true * np.log(y_pred), axis=1))
+        return loss
+
     
     def backward(self, X, y_true, y_pred, learning_rate):
         m = X.shape[0]
