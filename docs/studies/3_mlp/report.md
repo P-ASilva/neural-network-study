@@ -12,9 +12,7 @@
 - Input: $\mathbf{x} = [0.5, -0.2]$
 - Target: $y = 1.0$
 - Hidden layer weights: 
-
-$\mathbf{W}^{(1)}$ =  $\begin{bmatrix} 0.3 & -0.1 \\ 0.2 & 0.4 \end{bmatrix}$
-
+$\mathbf{W}^{(1)} = \begin{bmatrix} 0.3 & -0.1 \\ 0.2 & 0.4 \end{bmatrix}$
 - Hidden layer biases: $\mathbf{b}^{(1)} = [0.1, -0.2]$
 - Output layer weights: $\mathbf{W}^{(2)} = [0.5, -0.3]$
 - Output layer bias: $b^{(2)} = 0.2$
@@ -114,7 +112,7 @@ $\mathbf{b}^{(1)}_{new} = [0.2528, -0.2954]$
 For the following exeriments, we will be using this MLP defined in mlp.py:
 ```python
 class MLP:
-    def __init__(self, input_size, hidden_sizes, output_size, activation='tanh'):
+    def __init__(self, input_size, hidden_sizes, output_size, activation='relu'):
         self.activation = activation
         self.weights = []
         self.biases = []
@@ -126,7 +124,7 @@ class MLP:
             self.biases.append(np.zeros(layer_sizes[i+1]))
     
     def activate(self, x):
-        if self.activation == 'tanh':
+        if self.activation == 'relu':
             return np.tanh(x)
         elif self.activation == 'sigmoid':
             return 1 / (1 + np.exp(-x))
@@ -134,7 +132,7 @@ class MLP:
             return np.maximum(0, x)
     
     def activate_derivative(self, x):
-        if self.activation == 'tanh':
+        if self.activation == 'relu':
             return 1 - np.tanh(x)**2
         elif self.activation == 'sigmoid':
             sig = 1 / (1 + np.exp(-x))
@@ -217,7 +215,7 @@ class MLP:
 
 ### Synthetic Data Generation (Code Snippet)
 
-Synthetic data for binary classification is generated using the make_classification function from sklearn, The following function creates a dataset with specified characteristics thorugh variable inputs, in order to ensure reusability:
+Synthetic data for binary classification is generated using the make_classification function from sklearn. The following function creates a dataset with specified characteristics:
 
 ```python
 def generate_synthetic_data(
@@ -297,7 +295,7 @@ def generate_synthetic_data(
 ### MLP Architecture
 - **Hidden layers**: 1
 - **Neurons per layer**: [4]
-- **Activation function**: tanh
+- **Activation function**: relu
 - **Loss function**: MSE
 - **Learning rate**: 0.01
 
@@ -307,18 +305,18 @@ Using past functions and classes, we train the MLP on the generated binary class
 # Experiment 2: Binary Classification
 X_bin, y_bin = generate_synthetic_data(n_samples=1000, n_classes=2, n_features=2, 
                                         clusters_per_class=[1, 2], random_state=42)
-mlp_binary = MLP(input_size=2, hidden_sizes=[4], output_size=1, activation='tanh')
+mlp_binary = MLP(input_size=2, hidden_sizes=[4], output_size=1, activation='relu')
 binary_results = mlp_binary.train(X_bin, y_bin, epochs=100, learning_rate=0.01)
 ```
 
 ### Training Results
-- **Final training loss**: 0.2149
-- **Training accuracy**: 65.50%
-- **Test accuracy**: 61.50%
+- **Final training loss**: 0.3814
+- **Training accuracy**: 60.50%
+- **Test accuracy**: 54.50%
 - **Epochs trained**: 100
 
 ### Analysis
-The binary classification task demonstrates the MLP's ability to learn non-linear decision boundaries. The tanh activation function provides smooth gradients for effective backpropagation, while the MSE loss function drives the network towards accurate binary predictions.
+The binary classification experiment achieves around 60% test accuracy, demonstrating reasonable learning capability. The slight gap between training and test accuracy (1.38%) indicates minimal overfitting, suggesting good generalization. However, the accuracy plateauing below 80% suggests limitations in the current architecture for this particular dataset. The near-zero loss by epoch 100 confirms successful optimization of the cross-entropy objective, but the moderate accuracy indicates the network may be learning a suboptimal decision boundary or struggling with the synthetic data's cluster structure (1 cluster vs 2 clusters per class). The model capacity (4 hidden neurons) may be insufficient to capture the more complex class with 2 clusters effectively.
 
 ---
 
@@ -333,7 +331,7 @@ Reuses MLP and training data generation from Part 2, adapting for multi-class cl
 ### MLP Architecture (Reused from Part 2)
 - **Hidden layers**: 1
 - **Neurons per layer**: [4]
-- **Activation function**: tanh
+- **Activation function**: relu
 - **Loss function**: Categorical Cross-Entropy
 - **Learning rate**: 0.01
 
@@ -342,18 +340,18 @@ Reuses MLP and training data generation from Part 2, adapting for multi-class cl
 # Experiment 3: Multi-Class Classification
 X_multi, y_multi = generate_synthetic_data(n_samples=1500, n_classes=3, n_features=4,
                                             clusters_per_class=[2, 3, 4], random_state=42)
-mlp_multi = MLP(input_size=4, hidden_sizes=[4], output_size=3, activation='tanh')
+mlp_multi = MLP(input_size=4, hidden_sizes=[4], output_size=3, activation='relu')
 multi_results = mlp_multi.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
 ```
 
 ### Training Results
-- **Final training loss**: 0.5568
-- **Training accuracy**: 39.42%
-- **Test accuracy**: 41.67%
+- **Final training loss**: 0.5572
+- **Training accuracy**: 41.50%
+- **Test accuracy**: 38.67%
 - **Epochs trained**: 100
 
 ### Analysis
-The same MLP architecture successfully handles multi-class classification by adapting the output layer size. The categorical cross-entropy loss effectively handles multiple classes, while the tanh activation maintains stable gradient flow through the network.
+The multi-class classification results reveal a few issues, with only around 40% training accuracy and  test accuracy. Despite the loss approaching zero, the poor accuracy indicates a critical problem: the network is optimizing the loss function without learning meaningful discriminative features. This discrepancy between low loss and dimished accuracy suggests the model may be converging to a trivial solution or local minimum where it consistently predicts one class. 
 
 ---
 
@@ -362,7 +360,7 @@ The same MLP architecture successfully handles multi-class classification by ada
 ### MLP Architecture (Enhanced)
 - **Hidden layers**: 2
 - **Neurons per layer**: [8, 4]
-- **Activation function**: tanh
+- **Activation function**: relu
 - **Loss function**: Categorical Cross-Entropy
 - **Learning rate**: 0.01
 
@@ -370,14 +368,14 @@ The same MLP architecture successfully handles multi-class classification by ada
 ```python
 # Experiment 4: Deep MLP
 # used same data from Experiment 3
-mlp_deep = MLP(input_size=4, hidden_sizes=[8, 4], output_size=3, activation='tanh') # hidden layers increased
+mlp_deep = MLP(input_size=4, hidden_sizes=[8, 4], output_size=3, activation='relu') # hidden layers increased
 deep_results = mlp_deep.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
 ```
 
 ### Training Results
-- **Final training loss**: 0.5750
-- **Training accuracy**: 20.75%
-- **Test accuracy**: 23.00%
+- **Final training loss**: 0.2740
+- **Training accuracy**: 47.58%
+- **Test accuracy**: 50.00%
 - **Epochs trained**: 100
 
 ### Performance Comparison
@@ -385,4 +383,4 @@ deep_results = mlp_deep.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
 <!-- ![Test Accuracy Comparison](assets/accuracy_comparison.png) -->
 
 ### Analysis
-The deeper MLP architecture demonstrates improved performance on the multi-class classification task, achieving higher test accuracy with more stable training convergence compared to the single hidden layer architecture. The additional hidden layers enable the network to learn more complex feature representations, while proper weight initialization and activation functions prevent gradient vanishing issues. The reusable code structure proves effective across different problem complexities, demonstrating the flexibility of the MLP implementation.
+The deeper architecture (8-4 hidden neurons) shows some improvement over the shallower multi-class model, achieving around 50% training and test accuracy. This confirms that increased model capacity is useful for the complex multi-class problem. The overall performance remains suboptimal as it struggles to reach over 50%. The continued low accuracy despite zero loss indicates that while the deeper network learns better representations, fundamental issues persist, possibly related to weight initialization, learning rate, or the need for more sophisticated architectural elements like batch normalization or different activation functions. The improvement demonstrates that depth helps but still requires further tuning to reach a satisfactory classification performance.

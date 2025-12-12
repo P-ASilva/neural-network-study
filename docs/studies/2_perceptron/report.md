@@ -25,7 +25,7 @@ def perceptron_train(X, y, eta=0.01, max_epochs=100):
 ```
 ## Study/Scenario Builder
 
-Used to orquestrate the training of a new perceptron based in core variables used to generate classes (mean, covariance)
+Used to orchestrate the training of a new perceptron based in core variables used to generate classes (mean, covariance)
 ```python
 def run_perceptron_study(mean0, cov0, mean1, cov1, study_name):
     np.random.seed(42)
@@ -79,3 +79,40 @@ Here, the means are closer and the variance is higher, causing overlap between c
 
 ![Decision Boundary](assets/study_2b_boundary.png)  
 ![Accuracy Curve](assets/study_2b_accuracy.png)
+
+
+#### Graph generation code:
+```python
+def generate_plots(X, y, w, b, accuracies, assets_dir, prefix):
+    plt.figure(figsize=(8,6))
+    plt.scatter(X[y==-1,0], X[y==-1,1], color="red", label="Class 0")
+    plt.scatter(X[y==1,0], X[y==1,1], color="blue", label="Class 1")
+
+    x_min, x_max = X[:,0].min()-1, X[:,0].max()+1
+    x_vals = np.linspace(x_min, x_max, 100)
+    y_vals = -(w[0]*x_vals + b)/w[1]
+    plt.plot(x_vals, y_vals, 'k--', label="Decision boundary")
+
+    preds = np.sign(np.dot(X, w) + b)
+    misclassified = X[preds != y]
+    if len(misclassified) > 0:
+        plt.scatter(misclassified[:,0], misclassified[:,1],
+                    facecolors='none', edgecolors='k', s=100, label="Misclassified")
+
+    plt.legend()
+    plt.title(f"{prefix} Decision Boundary")
+    boundary_path = assets_dir / f"{prefix}_boundary.png"
+    plt.savefig(boundary_path)
+    plt.close()
+
+    plt.figure(figsize=(8,6))
+    plt.plot(range(1, len(accuracies)+1), accuracies, marker='o')
+    plt.xlabel("Epochs")
+    plt.ylabel("Accuracy")
+    plt.title(f"{prefix} - Training Accuracy")
+    accuracy_path = assets_dir / f"{prefix}_accuracy.png"
+    plt.savefig(accuracy_path)
+    plt.close()
+
+    return f"assets/{prefix}_boundary.png", f"assets/{prefix}_accuracy.png"
+```
