@@ -65,17 +65,17 @@ def run_experiments():
     # Experiment 2: Binary Classification
     X_bin, y_bin = generate_synthetic_data(n_samples=1000, n_classes=2, n_features=2, 
                                          clusters_per_class=[1, 2], random_state=42)
-    mlp_binary = MLP(input_size=2, hidden_sizes=[4], output_size=1, activation='tanh')
+    mlp_binary = MLP(input_size=2, hidden_sizes=[4], output_size=1, activation='relu')
     binary_results = mlp_binary.train(X_bin, y_bin, epochs=100, learning_rate=0.01)
     
     # Experiment 3: Multi-Class Classification
     X_multi, y_multi = generate_synthetic_data(n_samples=1500, n_classes=3, n_features=4,
                                               clusters_per_class=[2, 3, 4], random_state=42)
-    mlp_multi = MLP(input_size=4, hidden_sizes=[4], output_size=3, activation='tanh')
+    mlp_multi = MLP(input_size=4, hidden_sizes=[4], output_size=3, activation='relu')
     multi_results = mlp_multi.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
     
     # Experiment 4: Deep MLP
-    mlp_deep = MLP(input_size=4, hidden_sizes=[8, 4], output_size=3, activation='tanh')
+    mlp_deep = MLP(input_size=4, hidden_sizes=[8, 4], output_size=3, activation='relu')
     deep_results = mlp_deep.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
     
     # Generate plots
@@ -109,7 +109,7 @@ def run_experiments():
     return {
         'binary_hidden_layers': 1,
         'binary_neurons_per_layer': [4],
-        'binary_activation': 'tanh',
+        'binary_activation': 'relu',
         'binary_loss': 'MSE',
         'binary_learning_rate': 0.01,
         'binary_final_loss': binary_results['loss_history'][-1],
@@ -120,7 +120,7 @@ def run_experiments():
         
         'multiclass_hidden_layers': 1,
         'multiclass_neurons_per_layer': [4],
-        'multiclass_activation': 'tanh',
+        'multiclass_activation': 'relu',
         'multiclass_loss': 'Categorical Cross-Entropy',
         'multiclass_learning_rate': 0.01,
         'multiclass_final_loss': multi_results['loss_history'][-1],
@@ -131,7 +131,7 @@ def run_experiments():
         
         'deep_hidden_layers': 2,
         'deep_neurons_per_layer': [8, 4],
-        'deep_activation': 'tanh',
+        'deep_activation': 'relu',
         'deep_loss': 'Categorical Cross-Entropy',
         'deep_learning_rate': 0.01,
         'deep_final_loss': deep_results['loss_history'][-1],
