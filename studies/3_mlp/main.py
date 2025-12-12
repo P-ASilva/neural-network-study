@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import sys
 import os
+# Add the current directory to Python path
+sys.path.append(os.path.dirname(__file__))
 from experiment_runner import (
     run_binary_classification,
     run_multiclass_classification,
     run_deep_mlp
 )
-# Add the current directory to Python path
-sys.path.append(os.path.dirname(__file__))
+
 
 def manual_mlp_calculation():
     x = np.array([0.5, -0.2])
