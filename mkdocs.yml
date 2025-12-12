@@ -132,7 +132,7 @@ extra_javascript:
   - https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js
 
 nav:
-  - Home: index.md
+  - Home: ./thisdocumentation/main.md
   - This documentation: ./thisdocumentation/main.md
   - Studies:
     - 1. Data: ./studies/1_data/report.md
