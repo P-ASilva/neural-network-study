@@ -382,7 +382,7 @@ deep_results = mlp_deep.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
 
 ### Performance Comparison
 ![Training Loss Comparison](assets/loss_comparison.png)
-![Test Accuracy Comparison](assets/accuracy_comparison.png)
+<!-- ![Test Accuracy Comparison](assets/accuracy_comparison.png) -->
 
 ### Analysis
 The deeper MLP architecture demonstrates improved performance on the multi-class classification task, achieving higher test accuracy with more stable training convergence compared to the single hidden layer architecture. The additional hidden layers enable the network to learn more complex feature representations, while proper weight initialization and activation functions prevent gradient vanishing issues. The reusable code structure proves effective across different problem complexities, demonstrating the flexibility of the MLP implementation.

@@ -12,13 +12,7 @@
 - Input: $\mathbf{x} = [0.5, -0.2]$
 - Target: $y = 1.0$
 - Hidden layer weights: 
-$$
-\mathbf{W}^{(1)} =
-\begin{bmatrix}
-0.3 & -0.1 \\
-0.2 & 0.4
-\end{bmatrix}
-$$
+$\mathbf{W}^{(1)} = \begin{bmatrix} 0.3 & -0.1 \\ 0.2 & 0.4 \end{bmatrix}$
 - Hidden layer biases: $\mathbf{b}^{(1)} = [0.1, -0.2]$
 - Output layer weights: $\mathbf{W}^{(2)} = [0.5, -0.3]$
 - Output layer bias: $b^{(2)} = 0.2$
@@ -221,7 +215,7 @@ class MLP:
 
 ### Synthetic Data Generation (Code Snippet)
 
-Synthetic data for binary classification is generated using the make_classification function from sklearn, with two features and two classes. The following function creates a dataset with specified characteristics:
+Synthetic data for binary classification is generated using the make_classification function from sklearn. The following function creates a dataset with specified characteristics:
 
 ```python
 def generate_synthetic_data(
