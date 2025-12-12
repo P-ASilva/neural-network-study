@@ -1,3 +1,58 @@
+# Study 2
+
+Separted in two scenarios for different approaches, before discussing the result we must highlight the setup.
+
+## Percepetron Training
+
+```python
+def perceptron_train(X, y, eta=0.01, max_epochs=100):
+    w = np.zeros(X.shape[1])
+    b = 0
+    accuracies = []
+
+    for epoch in range(max_epochs):
+        errors = 0
+        for xi, target in zip(X, y):
+            if target * (np.dot(w, xi) + b) <= 0:
+                w += eta * target * xi
+                b += eta * target
+                errors += 1
+        acc = np.mean(np.sign(np.dot(X, w) + b) == y)
+        accuracies.append(acc)
+        if errors == 0:
+            break
+    return w, b, accuracies
+```
+## Study/Scenario Builder
+
+Use to orquestrate the training of a new perceptron based in core variables used to generate classes (mean, covariance
+)
+```python
+def run_perceptron_study(mean0, cov0, mean1, cov1, study_name):
+    np.random.seed(42)
+    class0 = np.random.multivariate_normal(mean0, cov0, 1000)
+    class1 = np.random.multivariate_normal(mean1, cov1, 1000)
+    X = np.vstack((class0, class1))
+    y = np.hstack((-1*np.ones(1000), np.ones(1000)))
+
+    w, b, accuracies = perceptron_train(X, y)
+    
+    assets_dir = Path(__file__).parent / "assets"
+    assets_dir.mkdir(exist_ok=True)
+    
+    boundary_path, accuracy_path = generate_plots(X, y, w, b, accuracies, assets_dir, study_name.lower().replace(" ", "_"))
+
+    return {
+        "final_weights": w,
+        "final_bias": b,
+        "final_accuracy": accuracies[-1] * 100,
+        "epochs_used": len(accuracies),
+        "boundary_plot_path": boundary_path,
+        "accuracy_plot_path": accuracy_path
+    }
+```
+The `run_percepetron_study` can be used directly, in this instance it was used through a `main()` in order to generate data for both of the following experiments:
+
 # Study 2A - Linear Separability Analysis
 
 **Final Weights:** [{% for w in study_a.final_weights %}{{ "%.8f" % w }}{% if not loop.last %}, {% endif %}{% endfor %}]  
