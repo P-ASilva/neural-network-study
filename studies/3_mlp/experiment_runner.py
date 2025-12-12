@@ -35,7 +35,7 @@ def run_multiclass_classification():
     X, y = generate_synthetic_data(n_samples=1500, n_classes=3, n_features=4,
                                  clusters_per_class=[2, 3, 4], random_state=42)
     
-    mlp = MLP(input_size=4, hidden_sizes=[4], output_size=3, activation='tanh')
+    mlp = MLP(input_size=4, hidden_sizes=[4], output_size=3, activation='relu')
     results = mlp.train(X, y, epochs=100, learning_rate=0.01)
     
     # Generate PCA visualization

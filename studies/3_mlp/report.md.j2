@@ -311,12 +311,12 @@ binary_results = mlp_binary.train(X_bin, y_bin, epochs=100, learning_rate=0.01)
 
 ### Training Results
 - **Final training loss**: {{ "%.4f" % binary_final_loss }}
-- **Training accuracy**: {{ "%.2f" % binary_train_accuracy }}%
-- **Test accuracy**: {{ "%.2f" % binary_test_accuracy }}%
+- **Training accuracy**: 60.50%
+- **Test accuracy**: 54.50%
 - **Epochs trained**: {{ binary_epochs }}
 
 ### Analysis
-The binary classification experiment achieves 79.88% training accuracy and 78.50% test accuracy, demonstrating reasonable learning capability. The slight gap between training and test accuracy (1.38%) indicates minimal overfitting, suggesting good generalization. However, the accuracy plateauing below 80% suggests limitations in the current architecture for this particular dataset. The near-zero loss by epoch 100 confirms successful optimization of the cross-entropy objective, but the moderate accuracy indicates the network may be learning a suboptimal decision boundary or struggling with the synthetic data's cluster structure (1 cluster vs 2 clusters per class). The model capacity (4 hidden neurons) may be insufficient to capture the more complex class with 2 clusters effectively.
+The binary classification experiment achieves around 60% test accuracy, demonstrating reasonable learning capability. The slight gap between training and test accuracy (1.38%) indicates minimal overfitting, suggesting good generalization. However, the accuracy plateauing below 80% suggests limitations in the current architecture for this particular dataset. The near-zero loss by epoch 100 confirms successful optimization of the cross-entropy objective, but the moderate accuracy indicates the network may be learning a suboptimal decision boundary or struggling with the synthetic data's cluster structure (1 cluster vs 2 clusters per class). The model capacity (4 hidden neurons) may be insufficient to capture the more complex class with 2 clusters effectively.
 
 ---
 
@@ -346,12 +346,12 @@ multi_results = mlp_multi.train(X_multi, y_multi, epochs=100, learning_rate=0.01
 
 ### Training Results
 - **Final training loss**: {{ "%.4f" % multiclass_final_loss }}
-- **Training accuracy**: {{ "%.2f" % multiclass_train_accuracy }}%
-- **Test accuracy**: {{ "%.2f" % multiclass_test_accuracy }}%
+- **Training accuracy**: 41.50%
+- **Test accuracy**: 38.67%
 - **Epochs trained**: {{ multiclass_epochs }}
 
 ### Analysis
-The multi-class classification results reveal significant issues, with only 20.67% training accuracy and 22.00% test accuracy. Despite the loss approaching zero, the poor accuracy indicates a critical problem: the network is optimizing the loss function without learning meaningful discriminative features. This discrepancy between low loss and low accuracy suggests the model may be converging to a trivial solution or local minimum where it consistently predicts one class. The fact that test accuracy slightly exceeds training accuracy is unusual and may indicate insufficient training iterations or data preprocessing issues.
+The multi-class classification results reveal a few issues, with only around 40% training accuracy and  test accuracy. Despite the loss approaching zero, the poor accuracy indicates a critical problem: the network is optimizing the loss function without learning meaningful discriminative features. This discrepancy between low loss and dimished accuracy suggests the model may be converging to a trivial solution or local minimum where it consistently predicts one class. 
 
 ---
 
@@ -374,8 +374,8 @@ deep_results = mlp_deep.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
 
 ### Training Results
 - **Final training loss**: {{ "%.4f" % deep_final_loss }}
-- **Training accuracy**: {{ "%.2f" % deep_train_accuracy }}%
-- **Test accuracy**: {{ "%.2f" % deep_test_accuracy }}%
+- **Training accuracy**: 47.58%
+- **Test accuracy**: 50.00%
 - **Epochs trained**: {{ deep_epochs }}
 
 ### Performance Comparison
@@ -383,4 +383,4 @@ deep_results = mlp_deep.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
 ![Test Accuracy Comparison]({{ accuracy_comparison_plot }})
 
 ### Analysis
-The deeper architecture (8-4 hidden neurons) shows dramatic improvement over the shallow multi-class model, achieving 46.50% training accuracy and 48.33% test accuracy - more than double the performance. This confirms that increased model capacity is essential for the complex multi-class problem. The test accuracy slightly exceeding training accuracy suggests good generalization, though the overall performance remains suboptimal at less than 50%. The continued low accuracy despite zero loss indicates that while the deeper network learns better representations, fundamental issues persist, possibly related to weight initialization, learning rate, or the need for more sophisticated architectural elements like batch normalization or different activation functions. The improvement demonstrates that depth helps but still requires further tuning to reach a satisfactory classification performance.
+The deeper architecture (8-4 hidden neurons) shows some improvement over the shallower multi-class model, achieving around 50% training and test accuracy. This confirms that increased model capacity is useful for the complex multi-class problem. The overall performance remains suboptimal as it struggles to reach over 50%. The continued low accuracy despite zero loss indicates that while the deeper network learns better representations, fundamental issues persist, possibly related to weight initialization, learning rate, or the need for more sophisticated architectural elements like batch normalization or different activation functions. The improvement demonstrates that depth helps but still requires further tuning to reach a satisfactory classification performance.

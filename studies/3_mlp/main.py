@@ -3,11 +3,13 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import sys
 import os
-
+from experiment_runner import (
+    run_binary_classification,
+    run_multiclass_classification,
+    run_deep_mlp
+)
 # Add the current directory to Python path
 sys.path.append(os.path.dirname(__file__))
-
-from mlp import MLP, generate_synthetic_data
 
 def manual_mlp_calculation():
     x = np.array([0.5, -0.2])
@@ -63,20 +65,13 @@ def run_experiments():
     assets_dir.mkdir(exist_ok=True)
     
     # Experiment 2: Binary Classification
-    X_bin, y_bin = generate_synthetic_data(n_samples=1000, n_classes=2, n_features=2, 
-                                         clusters_per_class=[1, 2], random_state=42)
-    mlp_binary = MLP(input_size=2, hidden_sizes=[4], output_size=1, activation='relu')
-    binary_results = mlp_binary.train(X_bin, y_bin, epochs=100, learning_rate=0.01)
+    binary_results = run_binary_classification()
     
     # Experiment 3: Multi-Class Classification
-    X_multi, y_multi = generate_synthetic_data(n_samples=1500, n_classes=3, n_features=4,
-                                              clusters_per_class=[2, 3, 4], random_state=42)
-    mlp_multi = MLP(input_size=4, hidden_sizes=[4], output_size=3, activation='relu')
-    multi_results = mlp_multi.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
+    multi_results = run_multiclass_classification()
     
     # Experiment 4: Deep MLP
-    mlp_deep = MLP(input_size=4, hidden_sizes=[8, 4], output_size=3, activation='relu')
-    deep_results = mlp_deep.train(X_multi, y_multi, epochs=100, learning_rate=0.01)
+    deep_results = run_deep_mlp()
     
     # Generate plots
     plt.figure(figsize=(10, 6))
